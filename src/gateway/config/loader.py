@@ -22,6 +22,7 @@ class Team(BaseModel):
     rate_limits: RateLimits
     budget: Budget
     priority: str
+    system_prompt: str | None = None
 
 
 class FallbackEntry(BaseModel):
