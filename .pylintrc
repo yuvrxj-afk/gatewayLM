@@ -1,0 +1,8 @@
+[MESSAGES CONTROL]
+# Disable style-only conventions — we use ruff for formatting
+disable =
+    C0114,  # missing-module-docstring
+    C0115,  # missing-class-docstring
+    C0116,  # missing-function-docstring
+    C0411,  # wrong-import-order (ruff handles this)
+    E1101,  # no-member (false positives on pydantic-settings dynamic attrs)
