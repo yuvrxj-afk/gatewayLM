@@ -61,7 +61,7 @@ A production API gateway that sits in front of all your organization's LLM calls
 
 | Ticket | Description | Status |
 |--------|-------------|--------|
-| P2-T1 | API key auth middleware (validate key → resolve team) | 🔲 todo |
+| P2-T1 | API key auth middleware (validate key → resolve team) | ✅ done |
 | P2-T2 | Token bucket in Redis — requests per minute | 🔲 todo |
 | P2-T3 | Token bucket — tokens per minute (LLM token counting) | 🔲 todo |
 | P2-T4 | Budget tracking — cost per request → daily/monthly cap | 🔲 todo |
