@@ -1,0 +1,63 @@
+[project]
+name = "gateway-lm"
+version = "0.1.0"
+description = "LLM API gateway with rate limiting, fallback routing, and observability"
+requires-python = ">=3.11"
+dependencies = [
+    # Web framework — think Express/Fastify but Python-native async
+    "fastapi>=0.115.0",
+    # ASGI server — like running node with a proper HTTP server underneath
+    "uvicorn[standard]>=0.32.0",
+    # Data validation — like Zod but built into the framework
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+    # HTTP client for calling providers (async, like axios)
+    "httpx>=0.28.0",
+    # YAML config loading
+    "pyyaml>=6.0.2",
+    # Redis client
+    "redis>=5.2.0",
+    # OpenAI SDK
+    "openai>=1.57.0",
+    # Anthropic SDK
+    "anthropic>=0.40.0",
+    # Observability
+    "opentelemetry-api>=1.29.0",
+    "opentelemetry-sdk>=1.29.0",
+    "opentelemetry-instrumentation-fastapi>=0.50b0",
+    "prometheus-client>=0.21.0",
+    # Structured logging
+    "structlog>=24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.0",   # also used for TestClient in tests
+    "ruff>=0.8.0",     # linter + formatter, like eslint + prettier combined
+    "mypy>=1.13.0",    # type checker, like tsc
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gateway"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

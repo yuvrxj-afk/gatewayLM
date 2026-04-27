@@ -1,2 +1,22 @@
-docs
-Agents.md
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+
+# Environment
+.env
+*.env.local
+
+# Editor
+.DS_Store
+.idea/
+*.swp
+
+# uv — lock file should be committed (like package-lock.json)
+# uv.lock
