@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from redis.asyncio import Redis, from_url
 
+from ..middleware.budget import calculate_cost, check_and_record_spend
 from ..config.loader import Team
 from ..config.settings import settings
 from ..middleware.auth import get_current_team
@@ -25,5 +26,10 @@ async def chat(
     response = await route(request, team.system_prompt)
     total_tokens = response.usage.input_tokens + response.usage.output_tokens
     await deduct_tokens(team, total_tokens, redis)
+
+    cost = calculate_cost(
+        request.model, response.usage.input_tokens, response.usage.output_tokens
+    )
+    await check_and_record_spend(team, cost, redis)
 
     return response
