@@ -7,7 +7,7 @@ teams:
     api_key: "gw-alpha-dev-key-1234"   # swap with a real secret in prod
     allowed_models:
       - gpt-4o
-      - claude-sonnet-3-5
+      - claude-sonnet-4-20250514
     rate_limits:
       requests_per_minute: 60
       tokens_per_minute: 100000
@@ -37,9 +37,9 @@ fallback_chains:
     - provider: openai
       model: gpt-4o
     - provider: anthropic
-      model: claude-sonnet-3-5
+      model: claude-sonnet-4-20250514
   tier-low:            # for cheaper/faster models
     - provider: openai
       model: gpt-4o-mini
-    - provider: ollama
-      model: llama3.2
+    - provider: anthropic
+      model: claude-haiku-4-5-20251001

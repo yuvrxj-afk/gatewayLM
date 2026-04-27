@@ -46,13 +46,13 @@ A production API gateway that sits in front of all your organization's LLM calls
 
 | Ticket | Description | Status |
 |--------|-------------|--------|
-| P1-T1 | Canonical request/response schema (Pydantic models) | 🔲 todo |
-| P1-T2 | OpenAI provider adapter | 🔲 todo |
-| P1-T3 | Anthropic provider adapter | 🔲 todo |
-| P1-T4 | Ollama provider adapter | 🔲 todo |
-| P1-T5 | Router — pick provider, call it, return unified response | 🔲 todo |
-| P1-T6 | Streaming passthrough (SSE / chunked responses) | 🔲 todo |
-| P1-T7 | Request enrichment (inject system prompts per team config) | 🔲 todo |
+| P1-T1 | Canonical request/response schema (Pydantic models) | ✅ done |
+| P1-T2 | OpenAI provider adapter | ✅ done |
+| P1-T3 | Anthropic provider adapter | ✅ done |
+| P1-T4 | Ollama provider adapter | ✅ done |
+| P1-T5 | Router — pick provider, call it, return unified response | ✅ done |
+| P1-T6 | Wire chat router into FastAPI app | ✅ done |
+| P1-T7 | Request enrichment (inject system prompts per team config) | ✅ done |
 
 ---
 
