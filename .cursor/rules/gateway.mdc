@@ -1,0 +1,31 @@
+---
+description: GatewayLM project conventions and architecture alignment
+alwaysApply: true
+---
+
+# GatewayLM Project Context
+
+Full context lives in `AGENTS.md`. Highlights:
+
+## What We're Building
+Production LLM API gateway — auth, rate limiting, budget enforcement, provider fallback, observability. Python 3.11 + FastAPI + Redis + OpenTelemetry.
+
+## Strict Rules
+- One commit per ticket. Format: `[P{phase}-T{ticket}] description`
+- Update `docs/doc.md` status when a ticket is done
+- Type annotations on every function — no untyped signatures
+- `async def` for all route handlers and I/O functions
+- Pydantic models for all data crossing boundaries
+- No bare `except:` — catch specific exceptions only
+
+## File Ownership
+- `models/schemas.py` — canonical types only, no business logic
+- `providers/` — one file per provider, no middleware logic
+- `middleware/` — pure request/response concerns, no provider logic
+- `config/` — loading and validation only
+
+## Architecture Flow
+Request → Auth middleware → Rate limit → Budget check → Router → Provider adapter → Response → Observability
+
+## Current Ticket Tracker
+See `docs/doc.md` for phases, tickets, and statuses.
