@@ -10,11 +10,15 @@ FastAPI equivalent of Express:
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
+from .routers import chat
+
 app = FastAPI(
     title="GatewayLM",
     description="LLM API gateway — rate limiting, fallback routing, observability",
     version="0.1.0",
 )
+
+app.include_router(chat.router)
 
 
 @app.get("/health")
