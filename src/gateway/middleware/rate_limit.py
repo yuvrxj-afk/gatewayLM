@@ -34,12 +34,12 @@ async def check_rate_limit(team: Team, redis: Redis) -> None:
 
     result = await redis.eval(
         RATE_LIMIT_SCRIPT,
-        2,                                        # number of KEYS
+        2,  # number of KEYS
         key_tokens,
         key_refill,
-        team.rate_limits.requests_per_minute,     # ARGV[1] capacity
-        team.rate_limits.requests_per_minute,     # ARGV[2] rate
-        int(time.time()),                         # ARGV[3] now
+        team.rate_limits.requests_per_minute,  # ARGV[1] capacity
+        team.rate_limits.requests_per_minute,  # ARGV[2] rate
+        int(time.time()),  # ARGV[3] now
     )
 
     if result == 0:
@@ -48,3 +48,18 @@ async def check_rate_limit(team: Team, redis: Redis) -> None:
             detail="rate limit exceeded",
             headers={"Retry-After": "60"},
         )
+
+
+async def deduct_tokens(team: Team, tokens_used: int, redis: Redis) -> None:
+    key = f"ratelimit:{team.id}:tpm"
+    current = await redis.get(key)
+    used = int(current or 0) + tokens_used
+
+    if used > team.rate_limits.tokens_per_minute:
+        raise HTTPException(
+            status_code=429,
+            detail="token rate limit exceeded",
+            headers={"Retry-After": "60"},
+        )
+
+    await redis.set(key, used, ex=60)
