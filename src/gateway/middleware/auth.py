@@ -11,3 +11,4 @@ async def get_current_team(x_api_key: str = Header(...)) -> Team:
         raise HTTPException(status_code=401, detail="invalid API key")
 
     return team
+    
