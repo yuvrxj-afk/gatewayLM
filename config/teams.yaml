@@ -1,0 +1,44 @@
+# Team configuration — hot-reloadable without restart.
+# Each team gets an API key, allowed models, rate limits, and a budget.
+
+teams:
+  - id: team-alpha
+    name: "Alpha Team"
+    api_key: "gw-alpha-dev-key-1234"   # swap with a real secret in prod
+    allowed_models:
+      - gpt-4o
+      - claude-sonnet-3-5
+    rate_limits:
+      requests_per_minute: 60
+      tokens_per_minute: 100000
+    budget:
+      monthly_usd: 500.00
+      warning_threshold: 0.80   # warn at 80%
+    priority: standard
+
+  - id: team-beta
+    name: "Beta Team (batch jobs)"
+    api_key: "gw-beta-dev-key-5678"
+    allowed_models:
+      - gpt-4o-mini
+    rate_limits:
+      requests_per_minute: 10
+      tokens_per_minute: 20000
+    budget:
+      monthly_usd: 50.00
+      warning_threshold: 0.80
+    priority: low              # lower priority than real-time teams
+
+# Provider fallback chains.
+# If the primary fails, the gateway tries providers in order.
+fallback_chains:
+  tier-high:           # for GPT-4o class models
+    - provider: openai
+      model: gpt-4o
+    - provider: anthropic
+      model: claude-sonnet-3-5
+  tier-low:            # for cheaper/faster models
+    - provider: openai
+      model: gpt-4o-mini
+    - provider: ollama
+      model: llama3.2
