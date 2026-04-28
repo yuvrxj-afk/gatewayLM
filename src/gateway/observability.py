@@ -14,10 +14,10 @@ from prometheus_client import Counter, Gauge, Histogram
 # Use NoOpTracerProvider in test environments to avoid console exporter noise
 
 import os
+_provider = TracerProvider()
 if os.getenv("APP_ENV", "development") != "test":
-    provider = TracerProvider()
-    provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
-    trace.set_tracer_provider(provider)
+    _provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+trace.set_tracer_provider(_provider)
 
 tracer = trace.get_tracer("gateway")
 
