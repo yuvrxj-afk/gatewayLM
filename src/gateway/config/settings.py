@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     ollama_base_url: str = "http://localhost:11434"
 
+    # Optional overrides for tests / local mocks
+    openai_base_url: str = "https://api.openai.com"
+    anthropic_base_url: str = "https://api.anthropic.com"
+
 
 
 settings = Settings()

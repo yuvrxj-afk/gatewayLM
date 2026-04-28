@@ -1,12 +1,11 @@
 import time
 import httpx
 from ..models.schemas import ChatRequest, ChatResponse, UsageStats
-
-
-ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
+from ..config.settings import settings
 
 
 async def complete(request: ChatRequest, api_key: str) -> ChatResponse:
+    anthropic_api_url = f"{settings.anthropic_base_url}/v1/messages"
 
     system_messages = [m for m in request.messages if m.role == "system"]
     non_system = [m for m in request.messages if m.role != "system"]
@@ -31,8 +30,8 @@ async def complete(request: ChatRequest, api_key: str) -> ChatResponse:
 
     start = time.monotonic()
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.post(ANTHROPIC_API_URL, json=payload, headers=headers)
+    async with httpx.AsyncClient(timeout=30.0, trust_env=False) as client:
+        response = await client.post(anthropic_api_url, json=payload, headers=headers)
         response.raise_for_status()
 
     elapsed_ms = int((time.monotonic() - start) * 1000)

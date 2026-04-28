@@ -1,12 +1,12 @@
 import time
 import httpx
 from ..models.schemas import ChatRequest, ChatResponse, UsageStats
-
-
-OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
+from ..config.settings import settings
 
 
 async def complete(request: ChatRequest, api_key: str) -> ChatResponse:
+    openai_api_url = f"{settings.openai_base_url}/v1/chat/completions"
+
     payload = {
         "model": request.model,
         "messages": [m.model_dump() for m in request.messages],
@@ -22,8 +22,8 @@ async def complete(request: ChatRequest, api_key: str) -> ChatResponse:
 
     start = time.monotonic()
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.post(OPENAI_API_URL, json=payload, headers=headers)
+    async with httpx.AsyncClient(timeout=30.0, trust_env=False) as client:
+        response = await client.post(openai_api_url, json=payload, headers=headers)
         response.raise_for_status()
 
     elapsed_ms = int((time.monotonic() - start) * 1000)
