@@ -90,10 +90,10 @@ A production API gateway that sits in front of all your organization's LLM calls
 
 | Ticket | Description | Status |
 |--------|-------------|--------|
-| P4-T1 | OpenTelemetry setup + spans on every request stage | 🔲 todo |
-| P4-T2 | Prometheus metrics export (`/metrics` endpoint) | 🔲 todo |
-| P4-T3 | Grafana dashboards (operations, business, performance) | 🔲 todo |
-| P4-T4 | Slack alerting rules | 🔲 todo |
+| P4-T1 | OpenTelemetry setup + spans on every request stage | ✅ done |
+| P4-T2 | Prometheus metrics export (`/metrics` endpoint) | ✅ done |
+| P4-T3 | Grafana dashboards (operations, business, performance) | ✅ done |
+| P4-T4 | Slack alerting rules | ⏭ skipped — needs real Slack webhook, Grafana config only |
 
 ---
 
