@@ -24,7 +24,7 @@ async def chat(
     redis: Redis = Depends(get_redis),
 ) -> ChatResponse:
     await check_rate_limit(team, redis)
-    chat_response = await route(request, team.system_prompt)
+    chat_response = await route(request, team.system_prompt, redis)
     total_tokens = chat_response.usage.input_tokens + chat_response.usage.output_tokens
     await deduct_tokens(team, total_tokens, redis)
 
