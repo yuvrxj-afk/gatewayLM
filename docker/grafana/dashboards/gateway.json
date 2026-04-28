@@ -1,0 +1,103 @@
+{
+  "title": "GatewayLM — Operations",
+  "uid": "gateway-ops",
+  "schemaVersion": 38,
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Requests per second",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(gateway_requests_total[1m])) by (team, provider)",
+          "legendFormat": "{{team}} / {{provider}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Request latency P99 (seconds)",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(gateway_request_latency_seconds_bucket[5m])) by (le, provider))",
+          "legendFormat": "p99 {{provider}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Error rate",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(gateway_requests_total{status!='success'}[1m])) by (team, status)",
+          "legendFormat": "{{team}} — {{status}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Token throughput (tokens/sec)",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(gateway_tokens_total[1m])) by (team, type)",
+          "legendFormat": "{{team}} {{type}}"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Cumulative spend by team (USD)",
+      "type": "bargauge",
+      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 },
+      "options": { "orientation": "horizontal" },
+      "targets": [
+        {
+          "expr": "sum(gateway_cost_usd_total) by (team)",
+          "legendFormat": "{{team}}"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Rate limit hits",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 16, "w": 6, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(gateway_rate_limit_hits_total)",
+          "legendFormat": "Total rate limit hits"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Circuit breaker state",
+      "type": "stat",
+      "gridPos": { "x": 18, "y": 16, "w": 6, "h": 8 },
+      "targets": [
+        {
+          "expr": "gateway_circuit_breaker_open",
+          "legendFormat": "{{provider}}"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "thresholds": {
+          "steps": [
+            { "color": "green", "value": 0 },
+            { "color": "red", "value": 1 }
+          ]
+        }
+      }
+    }
+  ]
+}

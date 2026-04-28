@@ -11,7 +11,9 @@ import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
 from .providers.health import health_check_loop
 from .routers import admin, chat
@@ -40,8 +42,16 @@ app = FastAPI(
 app.include_router(chat.router)
 app.include_router(admin.router)
 
+FastAPIInstrumentor.instrument_app(app)
+
 
 @app.get("/health")
 async def health() -> JSONResponse:
     """Liveness probe. Returns 200 when the process is up."""
     return JSONResponse({"status": "ok", "version": "0.1.0"})
+
+
+@app.get("/metrics")
+async def metrics() -> Response:
+    """Prometheus scrape endpoint."""
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
