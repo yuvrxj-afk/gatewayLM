@@ -15,6 +15,10 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
       - APP_ENV=development
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      # Optional: point gateway to mocks for offline testing
+      # - OPENAI_BASE_URL=http://mock-providers:9000
+      # - ANTHROPIC_BASE_URL=http://mock-providers:9000
     depends_on:
       - redis
 
@@ -38,3 +42,24 @@ services:
       - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
+
+  mock-providers:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: ["python", "-m", "uvicorn", "src.mock_providers.main:app", "--host", "0.0.0.0", "--port", "9000"]
+    ports:
+      - "9000:9000"
+    environment:
+      - APP_ENV=development
+
+  # Optional: run Ollama inside compose (instead of host Ollama)
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama:/root/.ollama
+
+# volumes:
+#   ollama:

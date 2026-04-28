@@ -1,7 +1,8 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env")
     # App
     app_env: str = "development"
     log_level: str = "INFO"
@@ -15,8 +16,10 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     ollama_base_url: str = "http://localhost:11434"
 
-    class Config:
-        env_file = ".env"
+    # Optional overrides for tests / local mocks
+    openai_base_url: str = "https://api.openai.com"
+    anthropic_base_url: str = "https://api.anthropic.com"
+
 
 
 settings = Settings()

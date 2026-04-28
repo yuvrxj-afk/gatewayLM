@@ -22,7 +22,7 @@ async def complete(request: ChatRequest, base_url: str) -> ChatResponse:
 
     start = time.monotonic()
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
+    async with httpx.AsyncClient(timeout=30.0, trust_env=False) as client:
         response = await client.post(f"{base_url}/api/chat", json=payload, headers=headers)
         response.raise_for_status()
 

@@ -20,3 +20,6 @@ dist/
 
 # uv — lock file should be committed (like package-lock.json)
 # uv.lock
+
+# Local Cursor/ContextPool artifacts
+ContextPool/

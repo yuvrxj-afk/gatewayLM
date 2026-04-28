@@ -8,13 +8,16 @@ Traces emitted via OpenTelemetry SDK (stdout exporter for now).
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 # ── OpenTelemetry setup ────────────────────────────────────────────────────────
+# Use NoOpTracerProvider in test environments to avoid console exporter noise
 
-provider = TracerProvider()
-provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
-trace.set_tracer_provider(provider)
+import os
+_provider = TracerProvider()
+if os.getenv("APP_ENV", "development") != "test":
+    _provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+trace.set_tracer_provider(_provider)
 
 tracer = trace.get_tracer("gateway")
 

@@ -42,6 +42,11 @@ def _is_retryable(exc: Exception) -> bool:
 
 
 def _get_fallback_chain(model: str) -> list[FallbackEntry]:
+    # Local Ollama models often look like "name:tag" (e.g. granite3.3:2b).
+    # Route those directly to Ollama unless explicitly configured otherwise.
+    if ":" in model or model.startswith(("granite", "llama", "mistral")):
+        return [FallbackEntry(provider="ollama", model=model)]
+
     config = load_config()
     if model.startswith("gpt-4o-mini") or model.startswith("claude-haiku"):
         chain = config.fallback_chains.get("tier-low")
