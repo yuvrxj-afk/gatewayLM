@@ -10,7 +10,7 @@ FastAPI equivalent of Express:
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from .routers import chat
+from .routers import admin, chat
 
 app = FastAPI(
     title="GatewayLM",
@@ -19,6 +19,7 @@ app = FastAPI(
 )
 
 app.include_router(chat.router)
+app.include_router(admin.router)
 
 
 @app.get("/health")

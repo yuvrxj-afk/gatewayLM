@@ -62,12 +62,12 @@ A production API gateway that sits in front of all your organization's LLM calls
 | Ticket | Description | Status |
 |--------|-------------|--------|
 | P2-T1 | API key auth middleware (validate key → resolve team) | ✅ done |
-| P2-T2 | Token bucket in Redis — requests per minute | 🔲 todo |
-| P2-T3 | Token bucket — tokens per minute (LLM token counting) | 🔲 todo |
-| P2-T4 | Budget tracking — cost per request → daily/monthly cap | 🔲 todo |
-| P2-T5 | Budget warning at 80%, hard block at 100% | 🔲 todo |
-| P2-T6 | Priority tiers — batch vs real-time requests | 🔲 todo |
-| P2-T7 | Admin API — view limits, adjust limits, view spending | 🔲 todo |
+| P2-T2 | Token bucket in Redis — requests per minute | ✅ done |
+| P2-T3 | Token bucket — tokens per minute (LLM token counting) | ✅ done |
+| P2-T4 | Budget tracking — cost per request → daily/monthly cap | ✅ done |
+| P2-T5 | Budget warning at 80%, hard block at 100% | ✅ done |
+| P2-T6 | Priority tiers — batch vs real-time requests | ✅ done |
+| P2-T7 | Admin API — view limits, adjust limits, view spending | ✅ done |
 
 ---
 

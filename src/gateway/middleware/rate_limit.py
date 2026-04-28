@@ -32,14 +32,18 @@ async def check_rate_limit(team: Team, redis: Redis) -> None:
     key_tokens = f"ratelimit:{team.id}:tokens"
     key_refill = f"ratelimit:{team.id}:last_refill"
 
+    capacity = team.rate_limits.requests_per_minute
+    if team.priority == "low":
+        capacity = capacity // 2
+
     result = await redis.eval(
         RATE_LIMIT_SCRIPT,
         2,  # number of KEYS
         key_tokens,
         key_refill,
-        team.rate_limits.requests_per_minute,  # ARGV[1] capacity
-        team.rate_limits.requests_per_minute,  # ARGV[2] rate
-        int(time.time()),  # ARGV[3] now
+        capacity,         # ARGV[1] capacity
+        capacity,         # ARGV[2] rate
+        int(time.time()), # ARGV[3] now
     )
 
     if result == 0:
