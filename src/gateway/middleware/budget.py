@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import HTTPException
 from redis.asyncio import Redis
@@ -27,7 +27,7 @@ def calculate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
 
 
 def _month_key(team_id: str) -> str:
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     return f"budget:{team_id}:{now.year}-{now.month:02d}"
 
 
