@@ -76,12 +76,12 @@ A production API gateway that sits in front of all your organization's LLM calls
 
 | Ticket | Description | Status |
 |--------|-------------|--------|
-| P3-T1 | Provider health checker (background task, every 30s) | 🔲 todo |
-| P3-T2 | Fallback chain config (GPT-4o fails → Claude Sonnet) | 🔲 todo |
-| P3-T3 | Retry with exponential backoff | 🔲 todo |
-| P3-T4 | Distinguish retryable vs non-retryable errors | 🔲 todo |
-| P3-T5 | Circuit breaker (open / half-open / closed states) | 🔲 todo |
-| P3-T6 | Circuit breaker state persistence in Redis | 🔲 todo |
+| P3-T1 | Provider health checker (background task, every 30s) | ✅ done |
+| P3-T2 | Fallback chain config (GPT-4o fails → Claude Sonnet) | ✅ done |
+| P3-T3 | Retry with exponential backoff | ✅ done |
+| P3-T4 | Distinguish retryable vs non-retryable errors | ✅ done |
+| P3-T5 | Circuit breaker (open / half-open / closed states) | ✅ done |
+| P3-T6 | Circuit breaker state persistence in Redis | ✅ done |
 
 ---
 
